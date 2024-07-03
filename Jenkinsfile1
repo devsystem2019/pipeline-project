@@ -50,31 +50,12 @@ pipeline {
         }
 
         stage("deploy") {
-            stages{
-                stage('deploy to dev') {
-                    when{
-                        branch 'dev'
-                    }
-                    steps{
-                        snDevOpsStep ()
-                        echo "deploy in UAT"
-            	snDevOpsPackage(name: "devops_pipeline_demo_dev${version}", artifactsPayload: """{"artifacts": [{"name": "devops_pipeline_demo_dev.jar","version": "${version}","semanticVersion": "${semanticVersion}","repositoryName": "devops_pipeline_demo_dev"}]}""")
-	        snDevOpsChange()
-                    }
-                }
-                stage('deploy to prod') {
-                    when {
-                        branch 'master'
-                    }
-                    steps{
+                steps{
                         snDevOpsStep ()
                         echo "deploy in prod"
 			snDevOpsChange()
                     }
-                }
             }
         }
 	
     }
-
-}
